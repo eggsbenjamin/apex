@@ -82,9 +82,20 @@ out.on('data', function(line){
     return
   }
 
+  if msg.error != null && msg.error != "" && msg.error_type != null && msg.error_type != "" {
+    CustomError.prototype = new Error();
+    const error = new CustomError(msg.error_type, msg.error);
+    c(msg.error)
+    return
+  }
+
   c(msg.error, msg.value);
 });
 
+function CustomError(message, type) {
+  this.name = type;
+  this.message = message;
+}
 
 /**
  * Handle events.
