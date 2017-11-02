@@ -82,9 +82,8 @@ out.on('data', function(line){
     return
   }
 
-  if msg.error != null && msg.error != "" && msg.error_type != null && msg.error_type != "" {
-    CustomError.prototype = new Error();
-    var error = new CustomError(msg.error_type, msg.error);
+  if (msg.error && msg.error_type) {
+    var error = new CustomError(msg.error, msg.error_type);
     c(error)
     return
   }
@@ -92,6 +91,7 @@ out.on('data', function(line){
   c(msg.error, msg.value);
 });
 
+CustomError.prototype = new Error();
 function CustomError(message, type) {
   this.name = type;
   this.message = message;
